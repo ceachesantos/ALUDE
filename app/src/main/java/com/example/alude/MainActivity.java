@@ -18,7 +18,6 @@ import android.widget.Toast;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
-
     private TextView mShowConnection;
     private Button bEmergencia;
     public boolean emergencia = false;
@@ -38,18 +37,14 @@ public class MainActivity extends AppCompatActivity {
         bEmergencia.setText("Emergencia");
         checkbox = (CheckBox)findViewById(R.id.checkBox);
 
-        /*In this example, the variableToCheck is the variable that you want to monitor.
-        The Handler object is used to periodically check the variable, using the postDelayed method.
-        In this case, the variable is checked every 500 milliseconds.
-        If the variable has changed, the code inside the if statement will be executed.
-        If the variable hasn't changed, the handler will check it again after 500 milliseconds.*/
+        //para que vuelva a funcionar bien otra vez, hay que esperar el mismo tiempo que dura la alarma
+        //el sonido falla
 
         Handler handler = new Handler();
         final int tiempo_alarma_activa = 5000; // Wait time in milliseconds
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                // Check every 500 milliseconds if emergencia is true or false
                 if (emergencia) {
                     Log.d("EMERGENCIA", "espero los X segundos");
                     bEmergencia.setText("Cancelar alarma");
@@ -59,16 +54,14 @@ public class MainActivity extends AppCompatActivity {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            //cuando se activa la emergencia, no vuelve a funcionar bien hasta dentro del mismo tiempo que mantiene la alarma
                             if (emergencia) {
                                 Log.d("EMERGENCIA", "avisar emergencia");
                                 checkbox.setChecked(true);
-                                //NotificationHelper.createNotification("hola", "hola");
+                                //LLAMAR A EMERGENCIAS
                                 // Reset the behavior to default
                                 emergencia = false;
                                 bEmergencia.setText("Emergencia");
-
-                                // Disable the user interface
-                                //bEmergencia.setEnabled(false);
                             }
                         }
                     }, tiempo_alarma_activa);
@@ -81,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
                 handler.postDelayed(this, 500);
             }
         }, 500);
-
     }
 
     public void botonEmergencias(View view) {
@@ -90,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
             emergencia = true;
             //bEmergencia.setText("Cancelar alarma");
             Log.d("EMERGENCIA", "pulso boton, activo emergencias, 'emergencia'="+String.valueOf(emergencia));
-
 
         }
         else if(bEmergencia.getText().equals("Cancelar alarma")){
@@ -102,14 +93,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void playSound() {
-        if (mediaPlayer != null) {
-            try {
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-            } catch (IOException e) {
-                Log.e("MediaPlayer", "Error preparing media player", e);
-            }
-        }
+        mediaPlayer.start();
     }
 
     private void stopSound() {
