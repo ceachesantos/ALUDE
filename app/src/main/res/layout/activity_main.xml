@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:onClick="testCambioEmergencia"
+        android:text="test cambio\nemergencia"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button" />
+
     <TextView
         android:id="@+id/info_connection"
         android:layout_width="wrap_content"
@@ -21,16 +32,12 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="202dp"
-        android:layout_height="72dp"
-        android:onClick="showConnection"
-        android:text="test cambio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="testConnection"
+        android:text="test cambio\ndisconnected"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.975" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/bEmergencia"
