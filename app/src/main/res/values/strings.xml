@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ALUDE</string>
+    <string name="text_info_connection">disconnected</string>
+    <string name="boton_emergencias">*no funciona*</string>
+</resources>
