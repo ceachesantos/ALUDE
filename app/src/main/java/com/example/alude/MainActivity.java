@@ -3,6 +3,7 @@ package com.example.alude;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,8 +24,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean emergencia = false;
     private MediaPlayer mediaPlayer;
     private CheckBox checkbox;
+    private int tiempo_alarma = 5000;
 
-    @Override
+    /*@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                //if (emergencia) bEmergencia.setBackgroundColor(R.color.red);
                 if (emergencia) {
                     Log.d("EMERGENCIA", "espero los X segundos");
                     bEmergencia.setText("Cancelar alarma");
@@ -74,6 +77,54 @@ public class MainActivity extends AppCompatActivity {
                 handler.postDelayed(this, 500);
             }
         }, 500);
+    }*/
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.alarm);
+
+        //bluetooth conectado
+        mShowConnection = (TextView) findViewById(R.id.info_connection);
+        bEmergencia = findViewById(R.id.bEmergencia);
+        bEmergencia.setText("Emergencia");
+        checkbox = (CheckBox) findViewById(R.id.checkBox);
+
+        final Handler handler = new Handler();
+        final int delay = 500; // 1000 milliseconds == 1 second
+
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                comprobarEmergencia();
+                handler.postDelayed(this, delay);
+            }
+        }, delay);
+    }
+
+    public void comprobarEmergencia(){
+            if (emergencia) {
+                Log.d("EMERGENCIA", "espero los X segundos");
+                bEmergencia.setText("Cancelar alarma");
+                if(!(mediaPlayer.isPlaying())) playSound();
+                //esperar los X segundos por la alarma
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        if(emergencia){
+                            Log.d("EMERGENCIA", "llamo a emergencias");
+                            //llamar emergencias
+
+                            checkbox.setChecked(true);
+                            checkbox.setChecked(false);
+                            if(mediaPlayer.isPlaying()) stopSound();
+                            emergencia=false;
+                        }
+                    }
+                }, tiempo_alarma); // X seconds
+            } else {
+                bEmergencia.setText("Emergencia");
+            }
     }
 
     public void botonEmergencias(View view) {
