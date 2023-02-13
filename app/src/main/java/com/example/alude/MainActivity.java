@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +26,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean emergencia = false;
     private MediaPlayer mediaPlayer;
     private CheckBox checkbox;
+    private Switch swDaltonismo;
     private int tiempo_alarma = 5000;
+    private boolean daltonismo = false;
 
     /*@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         bEmergencia = findViewById(R.id.bEmergencia);
         bEmergencia.setText("Emergencia");
         checkbox = (CheckBox) findViewById(R.id.checkBox);
+        swDaltonismo = (Switch) findViewById(R.id.sw_daltonismo);
 
         final Handler handler = new Handler();
         final int delay = 500; // 1000 milliseconds == 1 second
@@ -106,6 +111,14 @@ public class MainActivity extends AppCompatActivity {
     public void comprobarEmergencia(){
             if (emergencia) {
                 Log.d("EMERGENCIA", "espero los X segundos");
+                if(!daltonismo){
+                    bEmergencia.setBackgroundColor(Color.BLUE);
+                    bEmergencia.setTextColor(Color.WHITE);
+                }
+                else if(daltonismo){
+                    bEmergencia.setBackgroundColor(Color.GREEN);
+                    bEmergencia.setTextColor(Color.BLACK);
+                }
                 bEmergencia.setText("Cancelar alarma");
                 if(!(mediaPlayer.isPlaying())) playSound();
                 //esperar los X segundos por la alarma
@@ -124,6 +137,14 @@ public class MainActivity extends AppCompatActivity {
                 }, tiempo_alarma); // X seconds
             } else {
                 bEmergencia.setText("Emergencia");
+                if(!daltonismo){
+                    bEmergencia.setBackgroundColor(Color.RED);
+                    bEmergencia.setTextColor(Color.WHITE);
+                }
+                else if(daltonismo){
+                    bEmergencia.setBackgroundColor(Color.YELLOW);
+                    bEmergencia.setTextColor(Color.BLACK);
+                }
             }
     }
 
@@ -165,5 +186,13 @@ public class MainActivity extends AppCompatActivity {
         Log.d("EMERGENCIA", "'emergencia'="+String.valueOf(emergencia));
         //Toast toast = Toast.makeText(this, String.valueOf(emergencia), Toast.LENGTH_SHORT);
         //toast.show();
+    }
+
+    public void switchDaltonismo(View view){
+        if(swDaltonismo.isChecked()) {
+            daltonismo=true;
+        } else {
+            daltonismo=false;
+        }
     }
 }
