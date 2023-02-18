@@ -2,12 +2,16 @@ package com.example.alude;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -29,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private Switch swDaltonismo;
     private int tiempo_alarma = 5000;
     private boolean daltonismo = false;
+    private SmsManager smsManager;
 
     /*@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +132,13 @@ public class MainActivity extends AppCompatActivity {
                         if(emergencia){
                             Log.d("EMERGENCIA", "llamo a emergencias");
                             //llamar emergencias
+                            smsManager = SmsManager.getDefault();
+                            //webo
+                            smsManager.sendTextMessage("680737850", null, "ch se cayó, ayuda a este pobre viejecito", null, null);
+                            //sofi
+                            smsManager.sendTextMessage("671380804", null, "ch se cayó, ayuda a este pobre viejecito", null, null);
+                            //manu
+                            smsManager.sendTextMessage("610459634", null, "ch se cayó, ayuda a este pobre viejecito", null, null);
 
                             checkbox.setChecked(true);
                             checkbox.setChecked(false);
@@ -195,4 +207,5 @@ public class MainActivity extends AppCompatActivity {
             daltonismo=false;
         }
     }
+
 }
