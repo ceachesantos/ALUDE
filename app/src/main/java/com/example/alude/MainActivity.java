@@ -132,14 +132,12 @@ public class MainActivity extends AppCompatActivity {
                         if(emergencia){
                             Log.d("EMERGENCIA", "llamo a emergencias");
                             //llamar emergencias
-                            smsManager = SmsManager.getDefault();
-                            //webo
-                            smsManager.sendTextMessage("680737850", null, "ch se cayó, ayuda a este pobre viejecito", null, null);
-                            //sofi
-                            smsManager.sendTextMessage("671380804", null, "ch se cayó, ayuda a este pobre viejecito", null, null);
-                            //manu
-                            smsManager.sendTextMessage("610459634", null, "ch se cayó, ayuda a este pobre viejecito", null, null);
-
+                            try {
+                                enviarSMS();
+                            }
+                            catch (Exception e){
+                                Log.d("EMERGENCIA", "envioSMS (no estoy en el movil)");
+                            }
                             checkbox.setChecked(true);
                             checkbox.setChecked(false);
                             if(mediaPlayer.isPlaying()) stopSound();
@@ -206,6 +204,19 @@ public class MainActivity extends AppCompatActivity {
         } else {
             daltonismo=false;
         }
+    }
+
+    public void enviarSMS(){
+        smsManager = SmsManager.getDefault();
+        //webo
+        smsManager.sendTextMessage("680737850", null, "ch se cayó, ayuda a este pobre viejecito", null, null);
+        //sofi
+        smsManager.sendTextMessage("671380804", null, "ch se cayó, ayuda a este pobre viejecito", null, null);
+        //manu
+        smsManager.sendTextMessage("610459634", null, "ch se cayó, ayuda a este pobre viejecito", null, null);
+        //tutores
+        //smsManager.sendTextMessage("608810870", null, "ch se cayó, ayuda a este pobre viejecito", null, null);
+        //smsManager.sendTextMessage("647343082", null, "ch se cayó, ayuda a este pobre viejecito", null, null);
     }
 
 }
