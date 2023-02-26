@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private int tiempo_alarma = 5000;
     private boolean daltonismo = false;
     private SmsManager smsManager;
+    String namePref, phone1Pref,phone2Pref,phone3Pref,phone4Pref;
 
     /*@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
         handler.postDelayed(new Runnable() {
             public void run() {
+                //Log.d("VALORES", phone1Pref);
                 comprobarEmergencia();
                 handler.postDelayed(this, delay);
             }
@@ -140,11 +142,11 @@ public class MainActivity extends AppCompatActivity {
         //Get the value of the setting that uses the key (KEY_XXX defined in SettingsActivity)
         //If there is no value for the key, the getString() method sets the setting value to Empty
         //For other values such as booleans, integers, or floating point numbers, you can use the getBoolean(), getInt(), or getFloat() methods
-        String namePref = sharedPref.getString(SettingsActivity.KEY_NAME, "Empty");
-        String phone1Pref = sharedPref.getString(SettingsActivity.KEY_PHONE_1, "Empty");
-        String phone2Pref = sharedPref.getString(SettingsActivity.KEY_PHONE_2, "Empty");
-        String phone3Pref = sharedPref.getString(SettingsActivity.KEY_PHONE_3, "Empty");
-        String phone4Pref = sharedPref.getString(SettingsActivity.KEY_PHONE_4, "Empty");
+        namePref = sharedPref.getString(SettingsActivity.KEY_NAME, "Empty");
+        phone1Pref = sharedPref.getString(SettingsActivity.KEY_PHONE_1, "Empty");
+        phone2Pref = sharedPref.getString(SettingsActivity.KEY_PHONE_2, "Empty");
+        phone3Pref = sharedPref.getString(SettingsActivity.KEY_PHONE_3, "Empty");
+        phone4Pref = sharedPref.getString(SettingsActivity.KEY_PHONE_4, "Empty");
 /*
         //Displays the value of the settings
         TextView mNameTextView = findViewById(R.id.textViewName);
@@ -184,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
                                 enviarSMS();
                             }
                             catch (Exception e){
-                                Log.d("EMERGENCIA", "envioSMS (no estoy en el movil)");
+                                Log.d("EMERGENCIA", "envioSMS no funciona");
                             }
                             checkbox.setChecked(true);
                             checkbox.setChecked(false);
@@ -256,15 +258,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void enviarSMS(){
         smsManager = SmsManager.getDefault();
-        //webo
-        smsManager.sendTextMessage("680737850", null, "ch se cayó, ayuda a este pobre viejecito", null, null);
-        //sofi
-        smsManager.sendTextMessage("671380804", null, "ch se cayó, ayuda a este pobre viejecito", null, null);
-        //manu
-        smsManager.sendTextMessage("610459634", null, "ch se cayó, ayuda a este pobre viejecito", null, null);
-        //tutores
-        //smsManager.sendTextMessage("608810870", null, "ch se cayó, ayuda a este pobre viejecito", null, null);
-        //smsManager.sendTextMessage("647343082", null, "ch se cayó, ayuda a este pobre viejecito", null, null);
+        smsManager.sendTextMessage(phone1Pref, null, namePref + " se ha caído.", null, null);
+        smsManager.sendTextMessage(phone2Pref, null, namePref + " se ha caído.", null, null);
+        smsManager.sendTextMessage(phone3Pref, null, namePref + " se ha caído.", null, null);
+        smsManager.sendTextMessage(phone4Pref, null, namePref + " se ha caído.", null, null);
     }
 
 }
