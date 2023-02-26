@@ -35,6 +35,11 @@
             android:singleLine="true"
             android:inputType="phone"/>
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="daltonism"
+            android:title="@string/daltonism" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

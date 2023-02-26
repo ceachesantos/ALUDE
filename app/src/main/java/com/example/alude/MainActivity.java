@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean emergencia = false;
     private MediaPlayer mediaPlayer;
     private CheckBox checkbox;
-    private Switch swDaltonismo;
+    //private Switch swDaltonismo;
     private int tiempo_alarma = 5000;
     private boolean daltonismo = false;
     private SmsManager smsManager;
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         bEmergencia = findViewById(R.id.bEmergencia);
         bEmergencia.setText("Emergencia");
         checkbox = (CheckBox) findViewById(R.id.checkBox);
-        swDaltonismo = (Switch) findViewById(R.id.sw_daltonismo);
+        //swDaltonismo = (Switch) findViewById(R.id.sw_daltonismo);
 
         final Handler handler = new Handler();
         final int delay = 500; // 1000 milliseconds == 1 second
@@ -147,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
         phone2Pref = sharedPref.getString(SettingsActivity.KEY_PHONE_2, "Empty");
         phone3Pref = sharedPref.getString(SettingsActivity.KEY_PHONE_3, "Empty");
         phone4Pref = sharedPref.getString(SettingsActivity.KEY_PHONE_4, "Empty");
+        daltonismo = sharedPref.getBoolean(SettingsActivity.KEY_DALT, false);
 /*
         //Displays the value of the settings
         TextView mNameTextView = findViewById(R.id.textViewName);
@@ -247,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
         //Toast toast = Toast.makeText(this, String.valueOf(emergencia), Toast.LENGTH_SHORT);
         //toast.show();
     }
-
+/*
     public void switchDaltonismo(View view){
         if(swDaltonismo.isChecked()) {
             daltonismo=true;
@@ -255,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
             daltonismo=false;
         }
     }
-
+*/
     public void enviarSMS(){
         smsManager = SmsManager.getDefault();
         smsManager.sendTextMessage(phone1Pref, null, namePref + " se ha caído.", null, null);

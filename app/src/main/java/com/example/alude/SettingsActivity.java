@@ -15,6 +15,7 @@ public class SettingsActivity extends AppCompatActivity {
     public static final String KEY_PHONE_2 = "phone2";
     public static final String KEY_PHONE_3 = "phone3";
     public static final String KEY_PHONE_4 = "phone4";
+    public static final String KEY_DALT = "daltonism";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
