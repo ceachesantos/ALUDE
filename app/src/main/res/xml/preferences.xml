@@ -9,7 +9,8 @@
             android:key="name"
             android:title="@string/name"
             android:singleLine="true"
-            android:inputType="textPersonName"/>
+            android:inputType="textPersonName"
+            android:summary=""/>
 
         <EditTextPreference
             android:key="phone1"
