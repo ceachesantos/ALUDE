@@ -2,4 +2,28 @@
     <string name="app_name">ALUDE</string>
     <string name="text_info_connection">disconnected</string>
     <string name="boton_emergencias">*no funciona*</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+
+    <string name="contentDescription">AJUSTES</string>
+
+    <string name="name">Nombre</string>
+    <string name="tlf_1">Teléfono 1</string>
+    <string name="tlf_2">Teléfono 2</string>
+    <string name="tlf_3">Teléfono 3</string>
+    <string name="tlf_4">Teléfono 4</string>
 </resources>

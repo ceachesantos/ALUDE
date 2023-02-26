@@ -6,11 +6,14 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +24,8 @@ import android.widget.CheckBox;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
 
@@ -111,6 +116,49 @@ public class MainActivity extends AppCompatActivity {
                 handler.postDelayed(this, delay);
             }
         }, delay);
+
+
+        //Initializing and creating a variable for our button
+        FloatingActionButton settingsBtn = findViewById(R.id.floatingActionButton);
+
+        //Adding on click listener for our button
+        settingsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Opening a new intent to open settings activity
+                Intent i = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(i);
+            }
+        });
+
+        //Ensures that the settings are properly initialized with their default values
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
+        //Get the setting as a SharedPreferences object
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+
+        //Get the value of the setting that uses the key (KEY_XXX defined in SettingsActivity)
+        //If there is no value for the key, the getString() method sets the setting value to Empty
+        //For other values such as booleans, integers, or floating point numbers, you can use the getBoolean(), getInt(), or getFloat() methods
+        String namePref = sharedPref.getString(SettingsActivity.KEY_NAME, "Empty");
+        String phone1Pref = sharedPref.getString(SettingsActivity.KEY_PHONE_1, "Empty");
+        String phone2Pref = sharedPref.getString(SettingsActivity.KEY_PHONE_2, "Empty");
+        String phone3Pref = sharedPref.getString(SettingsActivity.KEY_PHONE_3, "Empty");
+        String phone4Pref = sharedPref.getString(SettingsActivity.KEY_PHONE_4, "Empty");
+/*
+        //Displays the value of the settings
+        TextView mNameTextView = findViewById(R.id.textViewName);
+        TextView mPhone1TextView = findViewById(R.id.textViewPhone1);
+        TextView mPhone2TextView = findViewById(R.id.textViewPhone2);
+        TextView mPhone3TextView = findViewById(R.id.textViewPhone3);
+        TextView mPhone4TextView = findViewById(R.id.textViewPhone4);
+
+        mNameTextView.setText(namePref);
+        mPhone1TextView.setText(phone1Pref);
+        mPhone2TextView.setText(phone2Pref);
+        mPhone3TextView.setText(phone3Pref);
+        mPhone4TextView.setText(phone4Pref);
+        */
     }
 
     public void comprobarEmergencia(){
