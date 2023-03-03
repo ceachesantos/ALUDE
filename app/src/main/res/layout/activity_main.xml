@@ -12,9 +12,10 @@
         android:layout_height="wrap_content"
         android:onClick="testCambioEmergencia"
         android:text="test cambio\nemergencia"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="@color/purple_500"/>
 
     <TextView
         android:id="@+id/info_connection"
@@ -44,15 +45,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.499" /> <!-- Use SP(Scale Independent Pixel) -->
 
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:checked="false"
-        android:text="aviso a emergencias"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 <!--
     <Switch
         android:id="@+id/sw_daltonismo"
@@ -78,7 +70,7 @@
         android:clickable="true"
         android:contentDescription="@string/contentDescription"
         android:focusable="true"
-        app:backgroundTint="#02FDE8"
+        app:backgroundTint="@color/teal_200"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:rippleColor="#000000"

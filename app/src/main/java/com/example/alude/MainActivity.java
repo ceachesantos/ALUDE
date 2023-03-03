@@ -4,7 +4,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.preference.Preference;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -43,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean daltonismo = false;
     private SmsManager smsManager;
     String namePref, phone1Pref,phone2Pref,phone3Pref,phone4Pref;
+    private Context context;
+    private int duration;
 
     /*@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,11 +105,15 @@ public class MainActivity extends AppCompatActivity {
 
         mediaPlayer = MediaPlayer.create(this, R.raw.alarm);
 
+        context = getApplicationContext();
+        //CharSequence text = "Hello toast!";
+        duration = Toast.LENGTH_SHORT;
+
         //bluetooth conectado
         mShowConnection = (TextView) findViewById(R.id.info_connection);
         bEmergencia = findViewById(R.id.bEmergencia);
         bEmergencia.setText("Emergencia");
-        checkbox = (CheckBox) findViewById(R.id.checkBox);
+        //checkbox = (CheckBox) findViewById(R.id.checkBox);
         //swDaltonismo = (Switch) findViewById(R.id.sw_daltonismo);
 
         final Handler handler = new Handler();
@@ -121,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
                 handler.postDelayed(this, delay);
             }
         }, delay);
-
 
         //Initializing and creating a variable for our button
         FloatingActionButton settingsBtn = findViewById(R.id.floatingActionButton);
@@ -192,8 +196,9 @@ public class MainActivity extends AppCompatActivity {
                             catch (Exception e){
                                 Log.d("EMERGENCIA", "envioSMS no funciona");
                             }
-                            checkbox.setChecked(true);
-                            checkbox.setChecked(false);
+
+                            Toast.makeText(context, "SMS de emergencia enviado.", duration).show();
+
                             if(mediaPlayer.isPlaying()) stopSound();
                             emergencia=false;
                         }
@@ -235,7 +240,6 @@ public class MainActivity extends AppCompatActivity {
     private void stopSound() {
         mediaPlayer.stop();
     }
-
 
     /*public void testConnection(View view) {
         mShowConnection.setText("connected");
