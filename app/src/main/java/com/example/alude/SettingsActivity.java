@@ -1,6 +1,7 @@
 package com.example.alude;
 
 import android.os.Bundle;
+import android.os.Handler;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,6 +34,23 @@ public class SettingsActivity extends AppCompatActivity {
             //Inflate our fragment
             getFragmentManager().beginTransaction().add(R.id.idFrameLayout, new SettingsFragment()).commit();
         }
+
+        final Handler handler = new Handler();
+        final int delay = 500; // 1000 milliseconds == 1 second
+
+        /*handler.postDelayed(new Runnable() {
+            public void run() {
+                //Log.d("VALORES", phone1Pref);
+                if (findViewById(R.id.idFrameLayout) != null) {
+                    if (savedInstanceState != null) {
+                        return;
+                    }
+                    //Inflate our fragment
+                    getFragmentManager().beginTransaction().add(R.id.idFrameLayout, new SettingsFragment()).commit();
+                }
+                handler.postDelayed(this, delay);
+            }
+        }, delay);*/
     }
 }
 
