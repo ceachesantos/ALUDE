@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     String namePref, phone1Pref,phone2Pref,phone3Pref,phone4Pref;
     private Context context;
     private int duration;
+    final Handler handler = new Handler();
+    final Handler handler2 = new Handler();
 
     /*@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +118,6 @@ public class MainActivity extends AppCompatActivity {
         //checkbox = (CheckBox) findViewById(R.id.checkBox);
         //swDaltonismo = (Switch) findViewById(R.id.sw_daltonismo);
 
-        final Handler handler = new Handler();
         final int delay = 500; // 1000 milliseconds == 1 second
 
         handler.postDelayed(new Runnable() {
@@ -185,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
                 bEmergencia.setText("Cancelar alarma");
                 if(!(mediaPlayer.isPlaying())) playSound();
                 //esperar los X segundos por la alarma
-                new Handler().postDelayed(new Runnable() {
+                handler2.postDelayed(new Runnable() {
                     public void run() {
                         if(emergencia){
                             Log.d("EMERGENCIA", "llamo a emergencias");
