@@ -11,7 +11,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.EditTextPreference;
@@ -31,7 +35,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LocationListener {
+    protected LocationManager locationManager;
+    String Latitude, Longitude;
     private TextView mShowConnection;
     private Button bEmergencia;
     public boolean emergencia = false;
@@ -100,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
         }, 500);
     }*/
 
+    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -156,21 +163,28 @@ public class MainActivity extends AppCompatActivity {
         phone3Pref = sharedPref.getString(SettingsActivity.KEY_PHONE_3, "Empty");
         phone4Pref = sharedPref.getString(SettingsActivity.KEY_PHONE_4, "Empty");
         daltonismo = sharedPref.getBoolean(SettingsActivity.KEY_DALT, false);
-/*
-        //Displays the value of the settings
-        TextView mNameTextView = findViewById(R.id.textViewName);
-        TextView mPhone1TextView = findViewById(R.id.textViewPhone1);
-        TextView mPhone2TextView = findViewById(R.id.textViewPhone2);
-        TextView mPhone3TextView = findViewById(R.id.textViewPhone3);
-        TextView mPhone4TextView = findViewById(R.id.textViewPhone4);
 
-        mNameTextView.setText(namePref);
-        mPhone1TextView.setText(phone1Pref);
-        mPhone2TextView.setText(phone2Pref);
-        mPhone3TextView.setText(phone3Pref);
-        mPhone4TextView.setText(phone4Pref);
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        Latitude = String.valueOf(location.getLatitude());
+        Longitude = String.valueOf(location.getLongitude());
+/*
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("geo").appendQueryParameter("q", Latitude + "," + Longitude);
+        maps_link = builder.build();
         */
     }
+    @Override
+    public void onProviderDisabled(String provider) {}
+    @Override
+    public void onProviderEnabled(String provider) {}
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {}
 
     public void comprobarEmergencia(){
             if (emergencia) {
@@ -267,10 +281,10 @@ public class MainActivity extends AppCompatActivity {
 */
     public void enviarSMS(){
         smsManager = SmsManager.getDefault();
-        smsManager.sendTextMessage(phone1Pref, null, namePref + " se ha caído.", null, null);
-        smsManager.sendTextMessage(phone2Pref, null, namePref + " se ha caído.", null, null);
-        smsManager.sendTextMessage(phone3Pref, null, namePref + " se ha caído.", null, null);
-        smsManager.sendTextMessage(phone4Pref, null, namePref + " se ha caído.", null, null);
+        smsManager.sendTextMessage(phone1Pref, null, namePref + " se ha caído. https://maps.google.com/?q="+Latitude+","+Longitude, null, null);
+        smsManager.sendTextMessage(phone2Pref, null, namePref + " se ha caído. https://maps.google.com/?q="+Latitude+","+Longitude, null, null);
+        smsManager.sendTextMessage(phone3Pref, null, namePref + " se ha caído. https://maps.google.com/?q="+Latitude+","+Longitude, null, null);
+        smsManager.sendTextMessage(phone4Pref, null, namePref + " se ha caído. https://maps.google.com/?q="+Latitude+","+Longitude, null, null);
     }
 
 }
