@@ -6,6 +6,13 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCallback;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattService;
+import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -34,13 +41,16 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
     protected LocationManager locationManager;
     String Latitude, Longitude;
     private TextView mShowConnection;
     private Button bEmergencia;
+    private Button bReconectar;
     public boolean emergencia = false;
+    public boolean emergenciaArduino = false;
     private MediaPlayer mediaPlayer;
     private CheckBox checkbox;
     //private Switch swDaltonismo;
@@ -52,59 +62,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     private int duration;
     final Handler handler = new Handler();
     final Handler handler2 = new Handler();
-
-    /*@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        mediaPlayer = MediaPlayer.create(this, R.raw.alarm);
-
-        //bluetooth conectado
-        mShowConnection = (TextView) findViewById(R.id.info_connection);
-        bEmergencia = findViewById(R.id.bEmergencia);
-        bEmergencia.setText("Emergencia");
-        checkbox = (CheckBox)findViewById(R.id.checkBox);
-
-        //para que vuelva a funcionar bien otra vez, hay que esperar el mismo tiempo que dura la alarma
-        //el sonido falla
-
-        Handler handler = new Handler();
-        final int tiempo_alarma_activa = 5000; // Wait time in milliseconds
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //if (emergencia) bEmergencia.setBackgroundColor(R.color.red);
-                if (emergencia) {
-                    Log.d("EMERGENCIA", "espero los X segundos");
-                    bEmergencia.setText("Cancelar alarma");
-                    //playSound(); // fix
-
-                    // Wait for tiempo_alarma_activa milliseconds
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            //cuando se activa la emergencia, no vuelve a funcionar bien hasta dentro del mismo tiempo que mantiene la alarma
-                            if (emergencia) {
-                                Log.d("EMERGENCIA", "avisar emergencia");
-                                checkbox.setChecked(true);
-                                //LLAMAR A EMERGENCIAS
-                                // Reset the behavior to default
-                                emergencia = false;
-                                bEmergencia.setText("Emergencia");
-                            }
-                        }
-                    }, tiempo_alarma_activa);
-                } else {
-                    bEmergencia.setText("Emergencia");
-                    checkbox.setChecked(false);
-                    //stopSound(); // fix
-                }
-                // Check again after 500 milliseconds
-                handler.postDelayed(this, 500);
-            }
-        }, 500);
-    }*/
+    private BluetoothAdapter bluetoothAdapter;
+    private BluetoothGatt bluetoothGatt;
+    private BluetoothGattCharacteristic characteristic;
+    BluetoothDevice device;
+    private final String DEVICE_ADDRESS = "67:C1:0A:8C:FA:D4";
+    private final UUID SERVICE_UUID = UUID.fromString("19B10010-E8F2-537E-4F6C-D104768A1214");
+    private final UUID CHARACTERISTIC_UUID = UUID.fromString("29B10011-E8F2-537E-4F6C-D104768A1214");
 
     @SuppressLint("MissingPermission")
     @Override
@@ -120,16 +84,44 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         //bluetooth conectado
         mShowConnection = (TextView) findViewById(R.id.info_connection);
+
+        bReconectar = findViewById(R.id.bReconectar);
         bEmergencia = findViewById(R.id.bEmergencia);
         bEmergencia.setText("Emergencia");
         //checkbox = (CheckBox) findViewById(R.id.checkBox);
         //swDaltonismo = (Switch) findViewById(R.id.sw_daltonismo);
+
+        // Get the Bluetooth adapter
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        // Connect to the BLE device
+        device = bluetoothAdapter.getRemoteDevice(DEVICE_ADDRESS);
+        try {
+            bluetoothGatt = device.connectGatt(this, false, gattCallback);
+        } catch (SecurityException e) {
+            Toast.makeText(getApplicationContext(), "Error onCreate", Toast.LENGTH_SHORT).show();
+        }
 
         final int delay = 500; // 1000 milliseconds == 1 second
 
         handler.postDelayed(new Runnable() {
             public void run() {
                 //Log.d("VALORES", phone1Pref);
+                // Read the characteristic
+                if (bluetoothGatt != null && characteristic != null) {
+                    try {
+                        bluetoothGatt.readCharacteristic(characteristic);
+                        mShowConnection.setText("Conectado");
+                        mShowConnection.setTextColor(Color.GREEN);
+                    } catch (SecurityException e) {
+                        Toast.makeText(getApplicationContext(), "Error readCharacteristic", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                //no funciona
+                else{
+                    mShowConnection.setText("Desconectado");
+                    mShowConnection.setTextColor(Color.GRAY);
+                }
                 comprobarEmergencia();
                 handler.postDelayed(this, delay);
             }
@@ -207,8 +199,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                             //llamar emergencias
                             try {
                                 enviarSMS();
-                                finish(); //terminar
-                                startActivity(getIntent()); //volver a abrir Activity. Esto soluciona el bug del sonido y que se active de golpe otra vez el envio del SMS
+                                //finish(); //terminar
+                                //startActivity(getIntent()); //volver a abrir Activity. Esto soluciona el bug del sonido y que se active de golpe otra vez el envio del SMS
                             }
                             catch (Exception e){
                                 Log.d("EMERGENCIA", "envioSMS no funciona");
@@ -245,6 +237,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         else if(bEmergencia.getText().equals("Cancelar alarma")){
             //cancelo la alarma
             emergencia = false;
+            finish(); //terminar
+            startActivity(getIntent());
             //bEmergencia.setText("Emergencia");
             Log.d("EMERGENCIA", "pulso boton, cancelo la alarma, 'emergencia'="+String.valueOf(emergencia));
         }
@@ -289,4 +283,61 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         smsManager.sendTextMessage(phone4Pref, null, namePref + " se ha caído. https://maps.google.com/?q="+Latitude+","+Longitude, null, null);
     }
 
+    //------------------------------BLUETOOTH-------------------------------------
+    // Define the callback function for BluetoothGatt
+    private final BluetoothGattCallback gattCallback = new BluetoothGattCallback() {
+
+        @Override
+        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+            if (newState == BluetoothProfile.STATE_CONNECTED) {
+                // Connected to the device, discover services
+                try{
+                    gatt.discoverServices();
+                }catch (SecurityException e){
+                    Toast.makeText(getApplicationContext(), "Error if onConnectionStateChange", Toast.LENGTH_SHORT).show();
+                }
+            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+                // Disconnected from the device
+                try{
+                    gatt.close();
+                }catch (SecurityException e){
+                    Toast.makeText(getApplicationContext(), "Error else if onConnectionStateChange", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+
+        @Override
+        public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+            if (status == BluetoothGatt.GATT_SUCCESS) {
+                // Services discovered, get the characteristic
+                BluetoothGattService service = gatt.getService(SERVICE_UUID);
+                characteristic = service.getCharacteristic(CHARACTERISTIC_UUID);
+                // Read the characteristic
+                try{
+                    gatt.readCharacteristic(characteristic);
+                }catch (SecurityException e){
+                    Toast.makeText(getApplicationContext(), "Error readCharacteristic", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+
+        @Override
+        public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+            if (status == BluetoothGatt.GATT_SUCCESS) {
+                // Characteristic read, get the value
+                byte[] value = characteristic.getValue();
+                emergencia = (value[0] != 0);
+                // Do something with the value
+                //Toast.makeText(getApplicationContext(), "Valor: "+String.valueOf(value), Toast.LENGTH_SHORT).show();
+                Log.i("BLE", "valor escaneo: "+ emergencia);
+            }
+        }
+    };
+
+    public void recargar(View view) {
+        finish(); //terminar
+        startActivity(getIntent());
+    }
 }

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
+    <!-- <Button
         android:id="@+id/b_TestCambioEmergencia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:backgroundTint="@color/purple_500"/>
+        android:backgroundTint="@color/purple_500"/> -->
 
     <TextView
         android:id="@+id/info_connection"
@@ -75,5 +75,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:rippleColor="#000000"
         app:srcCompat="@drawable/icono_ajustes" />
+
+    <Button
+        android:id="@+id/bReconectar"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:onClick="recargar"
+        android:text="Reconectar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/info_connection" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
