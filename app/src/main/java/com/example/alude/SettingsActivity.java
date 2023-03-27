@@ -52,5 +52,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         }, delay);*/
     }
+
+
 }
 

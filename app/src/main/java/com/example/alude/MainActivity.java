@@ -140,15 +140,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             }
         });
 
-        //Ensures that the settings are properly initialized with their default values
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-
-        //Get the setting as a SharedPreferences object
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-
-        //Get the value of the setting that uses the key (KEY_XXX defined in SettingsActivity)
-        //If there is no value for the key, the getString() method sets the setting value to Empty
-        //For other values such as booleans, integers, or floating point numbers, you can use the getBoolean(), getInt(), or getFloat() methods
         namePref = sharedPref.getString(SettingsActivity.KEY_NAME, "Empty");
         phone1Pref = sharedPref.getString(SettingsActivity.KEY_PHONE_1, "Empty");
         phone2Pref = sharedPref.getString(SettingsActivity.KEY_PHONE_2, "Empty");
@@ -165,11 +158,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public void onLocationChanged(Location location) {
         Latitude = String.valueOf(location.getLatitude());
         Longitude = String.valueOf(location.getLongitude());
-/*
-        Uri.Builder builder = new Uri.Builder();
-        builder.scheme("geo").appendQueryParameter("q", Latitude + "," + Longitude);
-        maps_link = builder.build();
-        */
     }
     @Override
     public void onProviderDisabled(String provider) {}
