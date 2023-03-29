@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     private Button bEmergencia;
     private Button bReconectar;
     public boolean emergencia = false;
-    public boolean emergenciaArduino = false;
     private MediaPlayer mediaPlayer;
     private CheckBox checkbox;
     //private Switch swDaltonismo;
@@ -187,8 +186,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                             //llamar emergencias
                             try {
                                 enviarSMS();
-                                //finish(); //terminar
-                                //startActivity(getIntent()); //volver a abrir Activity. Esto soluciona el bug del sonido y que se active de golpe otra vez el envio del SMS
+                                finish(); //terminar
+                                startActivity(getIntent()); //volver a abrir Activity. Esto soluciona el bug del sonido y que se active de golpe otra vez el envio del SMS
                             }
                             catch (Exception e){
                                 Log.d("EMERGENCIA", "envioSMS no funciona");
