@@ -186,8 +186,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                             //llamar emergencias
                             try {
                                 enviarSMS();
-                                finish(); //terminar
-                                startActivity(getIntent()); //volver a abrir Activity. Esto soluciona el bug del sonido y que se active de golpe otra vez el envio del SMS
+                                recargar();
                             }
                             catch (Exception e){
                                 Log.d("EMERGENCIA", "envioSMS no funciona");
@@ -324,6 +323,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     };
 
     public void recargar(View view) {
+        finish(); //terminar
+        startActivity(getIntent());
+    }
+
+    public void recargar() {
         finish(); //terminar
         startActivity(getIntent());
     }
