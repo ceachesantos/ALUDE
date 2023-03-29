@@ -223,8 +223,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         else if(bEmergencia.getText().equals("Cancelar alarma")){
             //cancelo la alarma
             emergencia = false;
-            finish(); //terminar
-            startActivity(getIntent());
+            /*finish(); //terminar
+            startActivity(getIntent());*/
             //bEmergencia.setText("Emergencia");
             Log.d("EMERGENCIA", "pulso boton, cancelo la alarma, 'emergencia'="+String.valueOf(emergencia));
         }
