@@ -34,19 +34,22 @@
         android:id="@+id/bEmergencia"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:backgroundTint="#FF0000"
-        android:onClick="botonEmergencias"
         android:text="@string/boton_emergencias"
+        android:textColor="@color/white"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        android:backgroundTint="#FF0000"
+        app:cornerRadius="25sp"
+        app:rippleColor="@color/white"
+        android:onClick="botonEmergencias"
+        android:elevation="4dp"
+        android:stateListAnimator="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499"
-        android:textColor="@color/white"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:cornerRadius="100sp"/> <!-- Use SP(Scale Independent Pixel) -->
+        app:layout_constraintVertical_bias="0.5" />
 
 <!--
     <Switch
