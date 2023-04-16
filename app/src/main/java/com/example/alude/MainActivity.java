@@ -1,10 +1,6 @@
 package com.example.alude;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -16,31 +12,21 @@ import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.EditTextPreference;
-import android.preference.PreferenceManager;
+import androidx.preference.PreferenceManager;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.io.IOException;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
@@ -51,8 +37,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     private Button bReconectar;
     public boolean emergencia = false;
     private MediaPlayer mediaPlayer;
-    private CheckBox checkbox;
-    //private Switch swDaltonismo;
     private int tiempo_alarma = 5000;
     private boolean daltonismo = false;
     private SmsManager smsManager;
@@ -78,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         mediaPlayer = MediaPlayer.create(this, R.raw.alarm);
 
         context = getApplicationContext();
-        //CharSequence text = "Hello toast!";
         duration = Toast.LENGTH_SHORT;
 
         //bluetooth conectado
@@ -87,8 +70,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         bReconectar = findViewById(R.id.bReconectar);
         bEmergencia = findViewById(R.id.bEmergencia);
         bEmergencia.setText("Emergencia");
-        //checkbox = (CheckBox) findViewById(R.id.checkBox);
-        //swDaltonismo = (Switch) findViewById(R.id.sw_daltonismo);
 
         // Get the Bluetooth adapter
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -105,7 +86,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         handler.postDelayed(new Runnable() {
             public void run() {
-                //Log.d("VALORES", phone1Pref);
                 // Read the characteristic
                 if (bluetoothGatt != null && characteristic != null) {
                     try {
@@ -141,11 +121,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        namePref = sharedPref.getString(SettingsActivity.KEY_NAME, "Empty");
-        phone1Pref = sharedPref.getString(SettingsActivity.KEY_PHONE_1, "Empty");
-        phone2Pref = sharedPref.getString(SettingsActivity.KEY_PHONE_2, "Empty");
-        phone3Pref = sharedPref.getString(SettingsActivity.KEY_PHONE_3, "Empty");
-        phone4Pref = sharedPref.getString(SettingsActivity.KEY_PHONE_4, "Empty");
+        namePref = sharedPref.getString(SettingsActivity.KEY_NAME, "");
+        phone1Pref = sharedPref.getString(SettingsActivity.KEY_PHONE_1, "");
+        phone2Pref = sharedPref.getString(SettingsActivity.KEY_PHONE_2, "");
+        phone3Pref = sharedPref.getString(SettingsActivity.KEY_PHONE_3, "");
+        phone4Pref = sharedPref.getString(SettingsActivity.KEY_PHONE_4, "");
         daltonismo = sharedPref.getBoolean(SettingsActivity.KEY_DALT, false);
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -252,15 +232,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         //Toast toast = Toast.makeText(this, String.valueOf(emergencia), Toast.LENGTH_SHORT);
         //toast.show();
     }
-/*
-    public void switchDaltonismo(View view){
-        if(swDaltonismo.isChecked()) {
-            daltonismo=true;
-        } else {
-            daltonismo=false;
-        }
-    }
-*/
+
     public void enviarSMS(){
         smsManager = SmsManager.getDefault();
         smsManager.sendTextMessage(phone1Pref, null, namePref + " se ha caído. https://maps.google.com/?q="+Latitude+","+Longitude, null, null);

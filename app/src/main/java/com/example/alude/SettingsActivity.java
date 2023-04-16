@@ -2,13 +2,8 @@ package com.example.alude;
 
 import android.os.Bundle;
 import android.os.Handler;
-
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.PreferenceFragmentCompat;
-
 import java.util.Objects;
-
 public class SettingsActivity extends AppCompatActivity {
 
     public static final String KEY_NAME = "name";
@@ -24,7 +19,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         //Change the title of our action bar
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Settings");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Ajustes");
 
         //Check if frame layout is empty or not
         if (findViewById(R.id.idFrameLayout) != null) {
@@ -32,27 +27,11 @@ public class SettingsActivity extends AppCompatActivity {
                 return;
             }
             //Inflate our fragment
-            getFragmentManager().beginTransaction().add(R.id.idFrameLayout, new SettingsFragment()).commit();
+            //getFragmentManager().beginTransaction().add(R.id.idFrameLayout, new SettingsFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.idFrameLayout, new SettingsFragment()).commit();
         }
 
         final Handler handler = new Handler();
         final int delay = 500; // 1000 milliseconds == 1 second
-
-        /*handler.postDelayed(new Runnable() {
-            public void run() {
-                //Log.d("VALORES", phone1Pref);
-                if (findViewById(R.id.idFrameLayout) != null) {
-                    if (savedInstanceState != null) {
-                        return;
-                    }
-                    //Inflate our fragment
-                    getFragmentManager().beginTransaction().add(R.id.idFrameLayout, new SettingsFragment()).commit();
-                }
-                handler.postDelayed(this, delay);
-            }
-        }, delay);*/
     }
-
-
 }
-

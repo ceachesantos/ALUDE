@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<!--PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"-->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!--below line is to create preference category-->
     <PreferenceCategory android:title="General">
@@ -10,31 +11,36 @@
             android:title="@string/name"
             android:singleLine="true"
             android:inputType="textPersonName"
-            android:summary=""/>
+            android:summary=""
+            app:useSimpleSummaryProvider="true"/>
 
         <EditTextPreference
             android:key="phone1"
             android:title="@string/tlf_1"
             android:singleLine="true"
-            android:inputType="phone"/>
+            android:inputType="phone"
+            app:useSimpleSummaryProvider="true"/>
 
         <EditTextPreference
             android:key="phone2"
             android:title="@string/tlf_2"
             android:singleLine="true"
-            android:inputType="phone"/>
+            android:inputType="phone"
+            app:useSimpleSummaryProvider="true"/>
 
         <EditTextPreference
             android:key="phone3"
             android:title="@string/tlf_3"
             android:singleLine="true"
-            android:inputType="phone"/>
+            android:inputType="phone"
+            app:useSimpleSummaryProvider="true"/>
 
         <EditTextPreference
             android:key="phone4"
             android:title="@string/tlf_4"
             android:singleLine="true"
-            android:inputType="phone"/>
+            android:inputType="phone"
+            app:useSimpleSummaryProvider="true"/>
 
         <SwitchPreference
             android:defaultValue="false"
