@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     private BluetoothGatt bluetoothGatt;
     private BluetoothGattCharacteristic characteristic;
     BluetoothDevice device;
-    private final String DEVICE_ADDRESS = "67:C1:0A:8C:FA:D4";
+    private final String DEVICE_ADDRESS = "8E:F2:D2:97:0E:8E";
     private final UUID SERVICE_UUID = UUID.fromString("19B10010-E8F2-537E-4F6C-D104768A1214");
     private final UUID CHARACTERISTIC_UUID = UUID.fromString("29B10011-E8F2-537E-4F6C-D104768A1214");
 
